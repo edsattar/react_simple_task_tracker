@@ -11,6 +11,7 @@ function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [tasks, setTasks] = useState([]);
 
+  // Fetch tasks from the server, and then set the state
   useEffect(() => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks();
@@ -58,8 +59,11 @@ function App() {
 
   // Toggle Reminder
   const toggleReminder = async (id) => {
+    // fetch the task from the server,
     const task = await fetchTask(id);
+    // update the reminder property,
     const updatedTask = { ...task, reminder: !task.reminder };
+    // make a put request to the server,
     const res = await fetch(`http://localhost:5000/tasks/${id}`, {
       method: "PUT",
       headers: {
@@ -67,6 +71,7 @@ function App() {
       },
       body: JSON.stringify(updatedTask),
     });
+    // update the state
     const data = await res.json();
 
     setTasks(
